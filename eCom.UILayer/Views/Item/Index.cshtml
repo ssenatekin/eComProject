@@ -1,0 +1,24 @@
+﻿@model List<eCom.EntityLayer.Concrete.Item>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_eComLayout.cshtml";
+}
+
+<h1>Ürünler</h1>
+
+  <div class="container">
+        <div class="row">
+            @foreach (var x in Model)
+            {
+            <div class="col-sm-4">                   
+                <div class="panel panel-success">                   
+                    <div class="panel-heading">@x.ItemName , @x.ItemPrice TL <a href="#" class="btn btn-primary">Sepete Ekle</a></div>
+                    <div class="slider" style="width:300px;height:200px;"><img src="@x.ItemImage" class="img-responsive" style="width:80%;height:100%" alt="Image"></div>
+                    <div class="panel-footer">@x.ItemDescription</div>                    
+                </div>
+                
+            </div>
+        }
+        </div>
+    </div>      
+    <br>
