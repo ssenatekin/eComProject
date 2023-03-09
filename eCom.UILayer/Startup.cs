@@ -4,6 +4,7 @@ using eCom.DataAccessLayer.Abstract;
 using eCom.DataAccessLayer.Concrete;
 using eCom.DataAccessLayer.EntityFramework;
 using eCom.EntityLayer.Concrete;
+using eCom.UILayer.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -33,7 +34,9 @@ namespace eCom.UILayer
             services.AddScoped<IItemDal, EFItemDal>();
 
             services.AddDbContext<Context>();
-            services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<Context>();
+            services.AddIdentity<AppUser, AppRole>().AddErrorDescriber<CustomIdentityValidator>().AddEntityFrameworkStores<Context>();
+
+
 
             services.AddControllersWithViews();
         }
