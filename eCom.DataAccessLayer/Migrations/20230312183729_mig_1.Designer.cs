@@ -10,8 +10,8 @@ using eCom.DataAccessLayer.Concrete;
 namespace eCom.DataAccessLayer.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230304154620_mig_new_create_identity")]
-    partial class mig_new_create_identity
+    [Migration("20230312183729_mig_1")]
+    partial class mig_1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -230,12 +230,93 @@ namespace eCom.DataAccessLayer.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("eCom.EntityLayer.Concrete.Basket", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Baskets");
+                });
+
+            modelBuilder.Entity("eCom.EntityLayer.Concrete.BasketItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BasketId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("ItemId1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BasketId");
+
+                    b.HasIndex("ItemId1");
+
+                    b.ToTable("BasketItems");
+                });
+
+            modelBuilder.Entity("eCom.EntityLayer.Concrete.CompletedOrder", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId")
+                        .IsUnique();
+
+                    b.ToTable("CompletedOrders");
+                });
+
             modelBuilder.Entity("eCom.EntityLayer.Concrete.Item", b =>
                 {
-                    b.Property<int>("ItemID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ItemDescription")
                         .HasColumnType("nvarchar(max)");
@@ -246,15 +327,44 @@ namespace eCom.DataAccessLayer.Migrations
                     b.Property<string>("ItemName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ItemPrice")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ItemPrice")
+                        .HasColumnType("int");
 
                     b.Property<int>("ItemQuantity")
                         .HasColumnType("int");
 
-                    b.HasKey("ItemID");
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
 
                     b.ToTable("Items");
+                });
+
+            modelBuilder.Entity("eCom.EntityLayer.Concrete.Order", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OrderCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -306,6 +416,65 @@ namespace eCom.DataAccessLayer.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("eCom.EntityLayer.Concrete.Basket", b =>
+                {
+                    b.HasOne("eCom.EntityLayer.Concrete.AppUser", "User")
+                        .WithMany("Baskets")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("eCom.EntityLayer.Concrete.BasketItem", b =>
+                {
+                    b.HasOne("eCom.EntityLayer.Concrete.Basket", "Basket")
+                        .WithMany("BasketItems")
+                        .HasForeignKey("BasketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eCom.EntityLayer.Concrete.Item", "Item")
+                        .WithMany("BasketItems")
+                        .HasForeignKey("ItemId1");
+
+                    b.Navigation("Basket");
+
+                    b.Navigation("Item");
+                });
+
+            modelBuilder.Entity("eCom.EntityLayer.Concrete.CompletedOrder", b =>
+                {
+                    b.HasOne("eCom.EntityLayer.Concrete.Order", "Order")
+                        .WithOne("CompletedOrder")
+                        .HasForeignKey("eCom.EntityLayer.Concrete.CompletedOrder", "OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("eCom.EntityLayer.Concrete.AppUser", b =>
+                {
+                    b.Navigation("Baskets");
+                });
+
+            modelBuilder.Entity("eCom.EntityLayer.Concrete.Basket", b =>
+                {
+                    b.Navigation("BasketItems");
+                });
+
+            modelBuilder.Entity("eCom.EntityLayer.Concrete.Item", b =>
+                {
+                    b.Navigation("BasketItems");
+                });
+
+            modelBuilder.Entity("eCom.EntityLayer.Concrete.Order", b =>
+                {
+                    b.Navigation("CompletedOrder");
                 });
 #pragma warning restore 612, 618
         }

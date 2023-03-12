@@ -3,6 +3,7 @@ using eCom.BusinessLayer.Concrete;
 using eCom.DataAccessLayer.Abstract;
 using eCom.DataAccessLayer.Concrete;
 using eCom.DataAccessLayer.EntityFramework;
+using eCom.DataAccessLayer.Repository;
 using eCom.EntityLayer.Concrete;
 using eCom.UILayer.Models;
 using Microsoft.AspNetCore.Builder;
@@ -36,9 +37,12 @@ namespace eCom.UILayer
             services.AddDbContext<Context>();
             services.AddIdentity<AppUser, AppRole>().AddErrorDescriber<CustomIdentityValidator>().AddEntityFrameworkStores<Context>();
 
-
+            services.AddScoped<IBasketService, BasketManager>();
+            services.AddScoped<IBasketDal, EFBasketDal>();
 
             services.AddControllersWithViews();
+
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,8 +57,12 @@ namespace eCom.UILayer
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
-            }
+            }           
+
             app.UseHttpsRedirection();
+
+            app.UseSession();
+
             app.UseStaticFiles();
 
             app.UseAuthentication();

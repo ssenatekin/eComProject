@@ -13,5 +13,7 @@ namespace eCom.EntityLayer.Concrete
         public string Surname { get; set; }
         public string ImageURL { get; set; }
         public string Gender { get; set; }
+
+        public ICollection<Basket> Baskets { get; set; }
     }
 }
