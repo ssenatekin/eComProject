@@ -9,12 +9,13 @@ namespace eCom.UILayer.Controllers
     {
         private readonly IBasketItemService _basketItemService;
 
+
         public BasketItemController(IBasketItemService basketItemService)
         {
             _basketItemService = basketItemService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int id)
         {
             var values = _basketItemService.TGetList();
             return View(values);

@@ -1,0 +1,35 @@
+﻿@*@using TravelTripProje.Models.Sınıflar*@
+@model List<Item>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Ürün Listesi</h2>
+<br />
+<table class="table table-bordered">
+    <tr>
+        <th>ID </th>
+        <th>Ürün Adı </th>
+        <th>Açıklama </th>
+        <th>Fiyatı </th>
+        <th>Miktar</th>
+        <th>Resim</th>
+        <th>Sil</th>
+        <th>Güncelle </th>
+    </tr>
+    @foreach (var x in Model)
+    {
+        <tr>
+            <td>@x.Id</td>
+            <td>@x.ItemName</td>
+            <td>@x.ItemDescription</td>
+            <td>@x.ItemPrice</td>
+            <td>@x.ItemQuantity</td>
+            <td>@x.ItemImage</td>
+            <td><a href="/Admin/ItemDelete/@x.Id" class="btn btn-danger">Sil</a></td>
+            <td><a href="/Admin/ItemGet/@x.Id" class="btn btn-warning">Güncelle</a></td>
+        </tr>
+    }
+</table>
+<a href="/Admin/NewItem/" class="btn  btn-primary">Yeni Ürün</a>

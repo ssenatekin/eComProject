@@ -22,7 +22,7 @@ namespace eCom.UILayer.Controllers
         public async Task<IActionResult> Index(AppUser appUser)
         {
             var result = await _signInManager.PasswordSignInAsync(appUser.UserName, appUser.PasswordHash, false, true);
-            if(result.Succeeded && appUser.UserName=="Admin") // burda kullanıcı adminse usere gitsin, normal kullanıcıysa ürünler sayfasına gitsin? yada veritabanında admin kullanıcı-şifre belirlenip onunla girsin?
+            if( appUser.UserName=="Admin" && result.Succeeded) // burda kullanıcı adminse usere gitsin, normal kullanıcıysa ürünler sayfasına gitsin? yada veritabanında admin kullanıcı-şifre belirlenip onunla girsin?
             {
                 return RedirectToAction("Index", "User");
             }

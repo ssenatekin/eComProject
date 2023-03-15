@@ -1,0 +1,30 @@
+﻿@model eCom.EntityLayer.Concrete.Item
+@{
+    ViewData["Title"] = "ItemGet";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Ürün Güncelleme Sayfası</h2>
+<br />
+@using (Html.BeginForm("ItemUpdate", "Admin", FormMethod.Post))
+{
+    @Html.LabelFor(x => x.Id)
+    @Html.TextBoxFor(x => x.Id, new { @class = "form-control",@readonly="readonly" })
+    <br />
+    @Html.LabelFor(x => x.ItemName)
+    @Html.TextBoxFor(x => x.ItemName, new { @class = "form-control" })
+    <br />
+    @Html.LabelFor(x => x.ItemPrice)
+    @Html.TextBoxFor(x => x.ItemPrice, new { @class = "form-control" })
+    <br />
+    @Html.LabelFor(x => x.ItemQuantity)
+    @Html.TextBoxFor(x => x.ItemQuantity, new { @class = "form-control" })
+    <br />
+    @Html.LabelFor(x => x.ItemImage)
+    @Html.TextBoxFor(x => x.ItemImage, new { @class = "form-control" })
+        <br />
+    @Html.LabelFor(x => x.ItemDescription)
+    @Html.TextAreaFor(x => x.ItemDescription,15,1, new { @class = "form-control" })
+    <br />
+    <button class="btn btn-success">Ürün Güncelle</button>
+}
