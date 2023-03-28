@@ -1,4 +1,4 @@
-﻿@model List<eCom.EntityLayer.Concrete.BasketItem>
+﻿@model List<eCom.EntityLayer.Concrete.BItem>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_eComLayout.cshtml";
@@ -14,21 +14,19 @@
         <th>Ürün Adı</th>
         <th>Ürün Açıklaması</th>
         <th>Fiyat</th>
-        <th>Ürün Resmi</th>
         <th>Miktar</th>
         <th>Sil</th>
     </tr>
     @foreach (var item in Model)
     {
         <tr>
-            <td>@item.Item.Id</td>
-            <td>@item.Item.ItemName</td>
-            <td>@item.Item.ItemDescription</td>
-            <td>@item.Item.ItemPrice</td>
-            <td>@item.Item.ItemImage</td>
-            <td>@item.Quantity</td>  
-            <td><a href="#" class="btn btn-outline-danger">Sil</a></td>
+            <td>@item.Id</td>
+            <td>@item.BItemName</td>
+            <td>@item.BItemDescription</td>
+            <td>@item.BItemPrice</td>
+            <td>@item.BItemQuantity</td>  
+            <td><a href="/Basket/DeleteFromBasket/@item.Id" class="btn btn-outline-danger">Sil</a></td>
         </tr>
     }
 </table>
-<a href="#" class="btn btn-outline-info">Satın Al</a>
+<a href="/Basket/BuyItems/" class="btn btn-outline-info">Satın Al</a>

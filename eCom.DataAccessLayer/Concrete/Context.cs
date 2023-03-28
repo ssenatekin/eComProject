@@ -18,6 +18,7 @@ namespace eCom.DataAccessLayer.Concrete
         {
             //integrated security--şifresiz giriş
             optionsBuilder.UseSqlServer("server=LAPTOP-MSFD5SIP\\MSSQLSERVER17;database=DbCommerce;integrated security=true;");
+            
         }
         //dbset sınıflarımı alıp sqle tablo olarak yansıtacak.
         public DbSet<Item> Items { get; set; }
@@ -25,7 +26,7 @@ namespace eCom.DataAccessLayer.Concrete
         public DbSet<Basket> Baskets { get; set; }
         public DbSet<BasketItem> BasketItems { get; set; }
         public DbSet<CompletedOrder> CompletedOrders { get; set; }
-
+        public DbSet<BItem> BItems { get; set; }        
 
     }
 }

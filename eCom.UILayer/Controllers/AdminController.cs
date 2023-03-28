@@ -1,4 +1,5 @@
-﻿using eCom.DataAccessLayer.Concrete;
+﻿using eCom.BusinessLayer.Abstract;
+using eCom.DataAccessLayer.Concrete;
 using eCom.EntityLayer.Concrete;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +13,17 @@ namespace eCom.UILayer.Controllers
         // GET: Admin
         Context c = new Context();
 
-        [Authorize]
-        public IActionResult Index()
+        private readonly IItemService _itemService;
+
+        public AdminController(IItemService itemService)
         {
-            var product = c.Items.ToList();
+            _itemService = itemService;
+        }
+
+        [Authorize]
+        public IActionResult Index(int id)
+        {
+            var product = _itemService.TGetList();
             return View(product);
         }
 
@@ -27,20 +35,18 @@ namespace eCom.UILayer.Controllers
         [HttpPost]
         public ActionResult NewItem(Item p)
         {
-            c.Items.Add(p);
-            c.SaveChanges();
+            _itemService.TInsert(p);
             return RedirectToAction("Index");
         }
         public ActionResult ItemDelete(int id)
         {
-            var b = c.Items.Find(id);
-            c.Items.Remove(b);
-            c.SaveChanges();
+            var d = _itemService.TGetById(id);
+            _itemService.TDelete(d);
             return RedirectToAction("Index");
         }
         public ActionResult ItemGet(int id)
         {
-            var it = c.Items.Find(id);
+            var it = _itemService.TGetById(id);
             return View("ItemGet", it);
         }
         public ActionResult ItemUpdate(Item i)

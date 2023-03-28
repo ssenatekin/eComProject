@@ -5,9 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eCom.BusinessLayer.Abstract
+namespace eCom.DataAccessLayer.Abstract
 {
-    public interface IBasketItemService : IGenericService<BasketItem>
+    public interface IBItemDal:IGenericDal<BItem>
     {
+        void GetBItem();
     }
 }

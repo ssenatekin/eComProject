@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace eCom.BusinessLayer.Abstract
 {
-    public interface IBasketItemService : IGenericService<BasketItem>
+    public interface IBItemService:IGenericService<BItem>
     {
     }
 }
