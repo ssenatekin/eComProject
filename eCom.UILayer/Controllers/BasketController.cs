@@ -35,6 +35,14 @@ namespace eCom.UILayer.Controllers
         public IActionResult Index(int id)
         {
             var bitem = _bItemService.TGetList();
+            var total = 0;
+            for (int i = 0; i < bitem.Count; i++)
+            {
+                total = total + bitem[i].BItemPrice;
+                ViewBag.total = total;
+            }
+             
+
             return View(bitem);
         }
         Context c = new Context();
@@ -48,8 +56,8 @@ namespace eCom.UILayer.Controllers
         {
             var i = _itemService.TGetById(id);
             var bi = _bItemService.TGetById(id);
-
-            if (bi.BItemId == i.Id && bi.BItemQuantity >= 1)
+            //if(ModelState.IsValid)
+            if (bi.BItemId == id && bi.BItemQuantity >= 1)
             {
                 bi.BItemQuantity = bi.BItemQuantity + Quantity;
                 _bItemService.TUpdate(bi);
@@ -74,24 +82,39 @@ namespace eCom.UILayer.Controllers
                 _bItemService.TDelete(b);
                 return RedirectToAction("Index");
             }
-        public IActionResult BuyItems(BItem b)
+        [HttpGet]
+        public IActionResult BuyItems()
         {
-            List<BItem> bitems = new List<BItem>();
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> BuyItems(Credit c, AppUser appUser)
+        {
             var values = _bItemService.TGetList();
-
-            var total=0;
-            for (int i = 0; i < values.Count; i++) {
-                total = total + values[i].BItemPrice;
-                //int price = bitems[i].BItemPrice;
-                
-                ViewBag.total = total; 
+            //var total=0;
+            //for (int i = 0; i < values.Count; i++) {
+            //    total = total + values[i].BItemPrice;
+            //    ViewBag.total = total; 
+            //}
+            if (c.CreditNo == "1111222233334444" && c.CreditUserName == "Sena" && c.CreditUserSurname == "Tekin" && c.Cvv == 123)
+            {
+                //int newAmount = c.CreditAmount - total;
+                //c.CreditAmount= newAmount;
+                return RedirectToAction("SuccessPage","Basket");
+            }else
+            {
+                var fail = "Hatalı Giriş Yaptınız, tekrar deneyin...";
+                return RedirectToAction("BuyItems", "Basket");
             }
-            //ViewBag.total = total;         
-            var bit=_bItemService.TGetList();
+            return View();
+        }
+        public IActionResult SuccessPage()
+        {
+            ViewBag.success = "Ödeme Başarılı...";          
             return View();
         }
 
-        }
+    }
     }
 
     

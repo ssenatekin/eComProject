@@ -26,7 +26,8 @@ namespace eCom.DataAccessLayer.Concrete
         public DbSet<Basket> Baskets { get; set; }
         public DbSet<BasketItem> BasketItems { get; set; }
         public DbSet<CompletedOrder> CompletedOrders { get; set; }
-        public DbSet<BItem> BItems { get; set; }        
+        public DbSet<BItem> BItems { get; set; }     
+        public DbSet<Credit> Credits { get; set; }
 
     }
 }
